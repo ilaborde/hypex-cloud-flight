@@ -11,7 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+    - name: Restore dependencies
+      run: dotnet restore HyperxHeadset.sln
+      working-directory: ${{env.working-directory}}
     - name: Build
-      run: dotnet build --configuration Release
+      run: dotnet build --no-restore
+      working-directory: ${{env.working-directory}}
